@@ -58,6 +58,41 @@ app.get('/api/persons/:id', (request, response) => {
         response.status(404).end()
 })
 
+app.delete('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id)
+    const person = data.filter(person => person.id !== id)
+    console.log(person)
+    response.status(204).end()
+    console.log('deleted person')
+})
+
+const genID = () => Math.floor(Math.random() * (100 - 0 + 1)) + 0
+
+app.post('/api/persons/', (request, response) => {
+   const body = request.body
+   if (!body.name) {
+    return response.status(400).json({ 
+      error: 'name missing' 
+    })}
+    else if (!body.number)
+    {
+        return response.status(400).json({ 
+          error: 'number missing' 
+        })}
+    else if (data.find(person => person.name === body.name))
+        return response.status(400).json({error: 'name duplicated'})
+
+  const person = {
+    name: body.name,
+    number: body.number,
+    id: genID()
+  }
+
+  const sending = data.concat(person)
+  response.json(sending)
+
+})
+
 const PORT = 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
