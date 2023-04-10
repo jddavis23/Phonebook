@@ -3,7 +3,7 @@ const app = express()
 
 app.use(express.json())
 
-const Data = [
+let data = [
     { 
       "id": 1,
       "name": "Arto Hellas", 
@@ -27,10 +27,35 @@ const Data = [
 ]
 
 app.get('/', (request, response) => {
+    console.log('testing')
     response.send('<div>HELP</div>')
 })
+
+app.get('/info', (request, response) => {
+    console.log(`Phonebook has ${data.length} entrys.`)
+    console.log(Date())
+    response.send(
+        `<div>
+            <h1>Phonebook has ${data.length} entrys.</h1>
+            ${Date()}
+        </div>`
+    )
+})
+
 app.get('/api/persons', (request, response) => {
-    response.json(Data)
+    console.log('getting persons data')
+    response.json(data)
+})
+
+app.get('/api/persons/:id', (request, response) => {
+    console.log("here")
+    const id = Number(request.params.id)
+    console.log(id)
+    const person = data.find(person => person.id === id)
+    if (person)
+        response.json(person)
+    else
+        response.status(404).end()
 })
 
 const PORT = 3001
