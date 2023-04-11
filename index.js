@@ -6,6 +6,15 @@ const app = express()
 app.use(express.json())
 app.use(morgan('tiny'))
 
+morgan.token('body',  function (req, res) {
+  if (res.method === 'POST')
+  {
+    return JSON.stringify(res.body) 
+  }
+})
+
+app.use(morgan('body'))
+
 let data = [
     { 
       "id": 1,
@@ -91,8 +100,8 @@ app.post('/api/persons/', (request, response) => {
     id: genID()
   }
 
-  const sending = data.concat(person)
-  response.json(sending)
+  data = data.concat(person)
+  response.json(data)
 
 })
 
