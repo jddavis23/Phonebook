@@ -1,7 +1,10 @@
 const express = require('express')
+const morgan = require('morgan')
+
 const app = express()
 
 app.use(express.json())
+app.use(morgan('tiny'))
 
 let data = [
     { 
@@ -60,8 +63,8 @@ app.get('/api/persons/:id', (request, response) => {
 
 app.delete('/api/persons/:id', (request, response) => {
     const id = Number(request.params.id)
-    const person = data.filter(person => person.id !== id)
-    console.log(person)
+    data = data.filter(person => person.id !== id)
+    console.log(data)
     response.status(204).end()
     console.log('deleted person')
 })
