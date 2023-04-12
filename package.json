@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "deploy:back": "git add . && git commit -m uibuild && git push",
     "dev": "nodemon index.js",
     "test": "echo \"testing testing\" && exit 1"
   },

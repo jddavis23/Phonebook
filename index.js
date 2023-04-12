@@ -45,7 +45,7 @@ let data = [
 
 app.get('/', (request, response) => {
     console.log('testing')
-    response.send('<div>HELP</div>')
+    response.send('<div>HELLO</div>')
 })
 
 app.get('/info', (request, response) => {
