@@ -1,16 +1,16 @@
 const express = require('express')
 const morgan = require('morgan')
+const cors = require('cors')
 
 const app = express()
 
 app.use(express.json())
+app.use(cors())
 app.use(morgan('tiny'))
 
 morgan.token('body',  function (req, res) {
   if (res.method === 'POST')
-  {
     return JSON.stringify(res.body) 
-  }
 })
 
 app.use(morgan('body'))
@@ -35,6 +35,11 @@ let data = [
       "id": 4,
       "name": "Mary Poppendieck", 
       "number": "39-23-6423122"
+    },
+    { 
+      "id": 5,
+      "name": "Mary Clapped", 
+      "number": "39-23-6423122"
     }
 ]
 
@@ -55,12 +60,10 @@ app.get('/info', (request, response) => {
 })
 
 app.get('/api/persons', (request, response) => {
-    console.log('getting persons data')
     response.json(data)
 })
 
 app.get('/api/persons/:id', (request, response) => {
-    console.log("here")
     const id = Number(request.params.id)
     console.log(id)
     const person = data.find(person => person.id === id)
